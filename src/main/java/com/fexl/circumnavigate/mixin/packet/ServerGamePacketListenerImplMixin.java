@@ -178,11 +178,14 @@ public abstract class ServerGamePacketListenerImplMixin {
 			LOGGER.warn("{} moved wrongly!", (Object) thiz.player.getName().getString());
 		}
 
-		if (!thiz.player.noPhysics && !thiz.player.isSleeping() && (bl3 && serverLevel.noCollision(thiz.player, aABB)) || thiz.isPlayerCollidingWithAnythingNew(serverLevel, aABB, d, e, f)) {
+		if (!thiz.player.noPhysics
+				&& !thiz.player.isSleeping()
+				&& ((bl3 && serverLevel.noCollision(thiz.player, aABB)) || thiz.isPlayerCollidingWithAnythingNew(serverLevel, aABB, d, e, f))) {
 			thiz.teleport(i, j, k, g, h);
 			thiz.player.doCheckFallDamage(thiz.player.getX() - i, thiz.player.getY() - j, thiz.player.getZ() - k, packet.isOnGround());
 			return;
 		}
+
 		thiz.player.absMoveTo(d, e, f, g, h);
 		thiz.clientIsFloating = s >= -0.03125 && !bl22 && thiz.player.gameMode.getGameModeForPlayer() != GameType.SPECTATOR && !thiz.server.isFlightAllowed() && !thiz.player.getAbilities().mayfly && !thiz.player.hasEffect(MobEffects.LEVITATION) && !thiz.player.isFallFlying() && !thiz.player.isAutoSpinAttack() && thiz.noBlocksAround(thiz.player);
 		thiz.player.serverLevel().getChunkSource().move(thiz.player);
